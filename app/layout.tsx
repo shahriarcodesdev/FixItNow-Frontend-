@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { DM_Sans, Outfit, Inter } from "next/font/google";
+import { cn } from "@/lib/utils";
+import { Toast } from "radix-ui";
+import { Toaster } from "sonner";
 
+const outfitHeading = Outfit({subsets:['latin'],variable:'--font-heading'});
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "FixItNow Frontend App",
@@ -15,9 +22,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="h-full antialiased"
+      className={cn("h-full antialiased", "font-sans", inter.variable, outfitHeading.variable)}
     >
       <body className="min-h-full flex flex-col">
+        <Toaster position="top-right"></Toaster>
       {/* navber */}
         {children}
         {/* footer */}
