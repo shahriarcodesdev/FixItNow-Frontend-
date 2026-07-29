@@ -9,11 +9,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown, LogOut, Settings, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CircleUser } from "lucide-react";
 import { logout } from "@/service/logout";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 // Navigation items array - easy to maintain and organize
 const navItems = [
@@ -68,14 +70,20 @@ type NavbarProps = {
 };
 
 export default function Navbar({ user }: NavbarProps) {
+//   console.log(user.success, "sucess");
+
+  const router = useRouter();
+
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const handleUserMenuAction = async (action: string) => {
-    console.log(`User clicked: ${action}`);
+    // console.log(`User clicked: ${action}`);
     setIsUserMenuOpen(false);
     // Add your action handlers here
     if (action === "logout") {
-        await logout()
+      await logout();
+      toast.success("User logged out successfully");
+      router.push("/login");
     }
   };
 
@@ -109,53 +117,63 @@ export default function Navbar({ user }: NavbarProps) {
               </Link>
             ))}
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-accent transition-colors cursor-pointer">
-                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-                  <CircleUser className="h-5 w-5 text-primary-foreground" />
-                </div>
+          {/* User Dropdown */}
+          {user.success ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-accent transition-colors cursor-pointer">
+                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
+                    <CircleUser className="h-5 w-5 text-primary-foreground" />
+                  </div>
 
-                <span className="hidden sm:inline">
-                  {user?.data?.profile?.name}
-                </span>
+                  <span className="hidden sm:inline">
+                    {user?.data?.profile?.name}
+                  </span>
 
-                <ChevronDown className="h-4 w-4" />
-              </button>
-            </DropdownMenuTrigger>
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel className="flex flex-col space-y-1">
-                <span className="text-sm font-medium leading-none">
-                  {user?.data?.profile?.name}
-                </span>
-                <span className="text-xs leading-none text-muted-foreground">
-                  {user?.data?.profile?.email}
-                </span>
-              </DropdownMenuLabel>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="flex flex-col space-y-1">
+                  <span className="text-sm font-medium leading-none">
+                    {user?.data?.profile?.name}
+                  </span>
+                  <span className="text-xs leading-none text-muted-foreground">
+                    {user?.data?.profile?.email}
+                  </span>
+                </DropdownMenuLabel>
 
-              <DropdownMenuSeparator />
+                <DropdownMenuSeparator />
 
-              {userMenuItems.map((item) => {
-                const Icon = item.icon;
+                {userMenuItems.map((item) => {
+                  const Icon = item.icon;
 
-                return (
-                  <DropdownMenuItem key={item.href} asChild>
-                    <Link href={item.href}>
-                      <Icon className="mr-2 h-4 w-4" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                );
-              })}
-              <DropdownMenuSeparator />
+                  return (
+                    <DropdownMenuItem key={item.href} asChild>
+                      <Link href={item.href}>
+                        <Icon className="mr-2 h-4 w-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  );
+                })}
+                <DropdownMenuSeparator />
 
-              <DropdownMenuItem onClick={async () => await handleUserMenuAction("logout")} className="cursor-pointer text-red-600 focus:text-red-600">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Logout</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem
+                  onClick={async () => await handleUserMenuAction("logout")}
+                  className="cursor-pointer text-red-600 focus:text-red-600"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link href="/login">
+              <Button variant="default">Login</Button>
+            </Link>
+          )}
         </div>
       </div>
     </nav>
