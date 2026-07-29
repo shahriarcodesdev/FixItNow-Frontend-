@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 type loginState = {
   success: number;
@@ -47,6 +48,7 @@ export const loginAction = async (
       maxAge: 60 * 60 * 24 * 7, // 7 days
       sameSite: "lax",
     });
+    redirect("/dashboard");
 
     return result;
   }

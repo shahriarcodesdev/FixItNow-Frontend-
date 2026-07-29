@@ -4,6 +4,7 @@ import { DM_Sans, Outfit, Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Toast } from "radix-ui";
 import { Toaster } from "sonner";
+import Navbar from "@/components/shared/navbar";
 
 const outfitHeading = Outfit({subsets:['latin'],variable:'--font-heading'});
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       className={cn("h-full antialiased", "font-sans", inter.variable, outfitHeading.variable)}
     >
       <body className="min-h-full flex flex-col">
+        <Navbar></Navbar>
         <Toaster position="top-right"></Toaster>
       {/* navber */}
         {children}
