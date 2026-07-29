@@ -3,6 +3,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
@@ -28,7 +30,44 @@ const userMenuItems = [
   { label: "Logout", icon: LogOut, action: "logout" },
 ];
 
-export default function Navbar() {
+// "success": true,
+//     "statusCode": 200,
+//     "message": "User profile fetched successfully",
+//     "data": {
+//         "profile": {
+//             "id": "f7df88b6-be93-4991-8acf-49d7f56d9553",
+//             "name": "babul",
+//             "email": "babul@gmail.com",
+//             "phone": null,
+//             "address": null,
+//             "role": "CUSTOMER",
+//             "status": "ACTIVE",
+//             "stripeCustomerId": null,
+//             "createdAt": "2026-07-11T11:03:15.576Z",
+//             "updatedAt": "2026-07-11T11:03:15.576Z",
+//             "technician": null
+//         }
+//     }
+// }
+
+type user={
+    success: boolean;
+    statusCode: number;
+    message: string;
+    data: {
+        profile: {
+            id: string;
+            name: string;
+            email: string;
+        }
+    }
+}
+
+type NavbarProps = {
+    user : user
+}
+
+export default function Navbar({ user }: NavbarProps) {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const handleUserMenuAction = (action: string) => {
@@ -68,35 +107,46 @@ export default function Navbar() {
             ))}
           </div>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-accent transition-colors cursor-pointer">
-                <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
-                  <CircleUser className="h-5 w-5 text-primary-foreground" />
-                </div>
+  <DropdownMenuTrigger asChild>
+    <button className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-accent transition-colors cursor-pointer">
+      <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
+        <CircleUser className="h-5 w-5 text-primary-foreground" />
+      </div>
 
-                <span className="hidden sm:inline">John Doe</span>
+      <span className="hidden sm:inline">{user?.data?.profile?.name}</span>
 
-                <ChevronDown className="h-4 w-4" />
-              </button>
-            </DropdownMenuTrigger>
+      <ChevronDown className="h-4 w-4" />
+    </button>
+  </DropdownMenuTrigger>
 
-            <DropdownMenuContent align="end" className="w-48">
-              {userMenuItems.map((item) => {
-                const Icon = item.icon;
+  <DropdownMenuContent align="end" className="w-56">
+    <DropdownMenuLabel className="flex flex-col space-y-1">
+      <span className="text-sm font-medium leading-none">
+        {user?.data?.profile?.name}
+      </span>
+      <span className="text-xs leading-none text-muted-foreground">
+        {user?.data?.profile?.email}
+      </span>
+    </DropdownMenuLabel>
 
-                return (
-                  <DropdownMenuItem
-                    key={item.action}
-                    onClick={() => handleUserMenuAction(item.action)}
-                    className="cursor-pointer"
-                  >
-                    <Icon className="mr-2 h-4 w-4" />
-                    {item.label}
-                  </DropdownMenuItem>
-                );
-              })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+    <DropdownMenuSeparator />
+
+    {userMenuItems.map((item) => {
+      const Icon = item.icon;
+
+      return (
+        <DropdownMenuItem
+          key={item.action}
+          onClick={() => handleUserMenuAction(item.action)}
+          className="cursor-pointer"
+        >
+          <Icon className="mr-2 h-4 w-4" />
+          <span>{item.label}</span>
+        </DropdownMenuItem>
+      );
+    })}
+  </DropdownMenuContent>
+</DropdownMenu>
         </div>
       </div>
     </nav>
