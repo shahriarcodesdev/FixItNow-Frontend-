@@ -16,14 +16,30 @@ import { CircleUser } from "lucide-react";
 import { logout } from "@/service/logout";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Wrench } from "lucide-react";
 
 // Navigation items array - easy to maintain and organize
 const navItems = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Features", href: "/features" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Contact", href: "/contact" },
+  {
+    label: "Home",
+    href: "/",
+  },
+  {
+    label: "Services",
+    href: "/services",
+  },
+  {
+    label: "Technicians",
+    href: "/technicians",
+  },
+  {
+    label: "About",
+    href: "/about",
+  },
+  {
+    label: "Contact",
+    href: "/contact",
+  },
 ];
 
 // User dropdown menu items
@@ -88,30 +104,31 @@ export default function Navbar({ user }: NavbarProps) {
   };
 
   return (
-    <nav className="border-b border-border bg-background">
+    <nav className="sticky top-0 z-50 border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center gap-2">
-              <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-sm font-bold text-primary-foreground">
-                  V0
-                </span>
-              </div>
-              <span className="text-lg font-semibold text-foreground">
-                FixItNow
-              </span>
-            </Link>
-          </div>
+          <Link href="/" className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md">
+              <Wrench className="h-6 w-6" />
+            </div>
+
+            <div className="leading-tight">
+              <h2 className="text-xl font-bold tracking-tight">FixItNow</h2>
+
+              <p className="text-xs text-muted-foreground">
+                Trusted Home Services
+              </p>
+            </div>
+          </Link>
 
           {/* Nav Links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden items-center gap-2 md:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground rounded-md hover:bg-accent"
+                className="rounded-md px-4 py-2 text-sm font-medium transition-colors hover:bg-primary/10 hover:text-primary"
               >
                 {item.label}
               </Link>
@@ -170,13 +187,13 @@ export default function Navbar({ user }: NavbarProps) {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3 ">
               <Link href="/login">
-                <Button variant="outline">Login</Button>
+                <Button className="cursor-pointer" variant="ghost">Login</Button>
               </Link>
 
               <Link href="/register">
-                <Button>Register</Button>
+                <Button className="cursor-pointer">Sign Up</Button>
               </Link>
             </div>
           )}
