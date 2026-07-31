@@ -111,14 +111,11 @@ export function ServiceGrid({ services }: Props) {
   </CardContent>
 
   <CardFooter>
-    <Button
-      className="w-full"
-      asChild
-    >
-      <Link href={`/services/${service.id}`}>
-        Book Service
-      </Link>
-    </Button>
+    <Button className="w-full" asChild>
+  <Link href={`/services/${service.id}/book`}>
+    Book Service
+  </Link>
+</Button>
   </CardFooter>
 </Card>
         ))}
