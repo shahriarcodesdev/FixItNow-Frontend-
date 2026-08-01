@@ -10,6 +10,7 @@ const Dashboardlayout = async (
    <div>
     <Navbar user={user}></Navbar>
         {children}
+        
    </div>
   )
 }
