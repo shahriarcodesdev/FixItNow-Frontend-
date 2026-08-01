@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
+
 import { getTechnicianBookings } from "@/service/getTechnicianBookings";
 
 import { DashboardStats } from "./_components/DashboardStats";
@@ -32,6 +33,17 @@ export default async function TechnicianDashboardPage() {
             My Profile
           </Link>
         </Button>
+
+        <Button asChild>
+
+<Link href="/technician-dashboard/services">
+
+Manage Services
+
+</Link>
+
+</Button>
+
 
       </div>
 
