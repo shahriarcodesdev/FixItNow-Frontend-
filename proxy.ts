@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
 const AUTH_ROUTE = ["/login", "/register"];
-const PUBLIC_ROUTE = ["/", "/services"];
+const PUBLIC_ROUTE = ["/", "/services","", "/about", "/contact", "/technicians"];
 
 // This function can be marked `async` if using `await` inside
 export function proxy(request: NextRequest) {
