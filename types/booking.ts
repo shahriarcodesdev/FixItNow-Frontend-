@@ -37,3 +37,60 @@ export type Booking = {
     comment: string;
   } | null;
 };
+// ---------------------------------------------
+
+
+export type AdminBooking = {
+  id: string;
+  bookingDate: string;
+  status: string;
+  createdAt: string;
+
+  customer: {
+    id: string;
+    name: string;
+    email: string;
+    phone: string | null;
+    address: string | null;
+  };
+
+  technician: {
+    id: string;
+
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      phone: string | null;
+      address: string | null;
+    };
+  };
+
+  service: {
+    id: string;
+    title: string;
+    price: number;
+
+    category: {
+      id: string;
+      name: string;
+    };
+  };
+
+  payment: {
+    id: string;
+    status: string;
+  } | null;
+
+  review: {
+    id: string;
+    rating: number;
+  } | null;
+};
+
+export type BookingResponse = {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  data: AdminBooking[];
+};
