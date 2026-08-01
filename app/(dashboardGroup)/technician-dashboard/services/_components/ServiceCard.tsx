@@ -6,109 +6,61 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { Button } from "@/components/ui/button";
-
 import { TechnicianService } from "@/types/service";
+
 import { DeleteServiceButton } from "./DeleteServiceButton";
-
-
-
+import { EditServiceDialog } from "./EditServiceDialog";
 
 type Props = {
   service: TechnicianService;
 };
 
-
 export function ServiceCard({
   service,
 }: Props) {
-
-
   return (
-
     <Card>
-
-
       <CardHeader>
-
         <CardTitle>
           {service.title}
         </CardTitle>
-
       </CardHeader>
 
-
-
-      <CardContent className="space-y-3">
-
-
+      <CardContent className="space-y-4">
         <p className="text-muted-foreground">
           {service.description}
         </p>
 
-
-
         <div className="flex justify-between">
-
-          <span>
+          <span className="text-muted-foreground">
             Price
           </span>
-
 
           <span className="font-semibold">
             ৳ {service.price}
           </span>
-
         </div>
 
-
-
-
         <div className="flex justify-between">
-
-          <span>
+          <span className="text-muted-foreground">
             Category
           </span>
 
-
-          <span>
+          <span className="font-medium">
             {service.category?.name}
           </span>
-
         </div>
-
-
-
       </CardContent>
 
-
-
-
-
       <CardFooter className="flex gap-3">
-
-
-        <Button
-          variant="outline"
-          className="flex-1"
-        >
-          Edit
-        </Button>
-
-
-
+        <EditServiceDialog
+          service={service}
+        />
 
         <DeleteServiceButton
           id={service.id}
         />
-
-
       </CardFooter>
-
-
-
     </Card>
-
   );
-
 }
