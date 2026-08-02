@@ -25,6 +25,8 @@ export const loginAction = async (
     password,
   };
 
+  let redirectPath: string | null = null;
+
   try {
     const res = await fetch(
       `${process.env.BACKEND_API_URL}/api/auth/login`,
@@ -49,7 +51,7 @@ export const loginAction = async (
     cookieStore.set("accessToken", result.data.accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 60 * 60 * 24,
       path: "/",
     });
@@ -57,7 +59,7 @@ export const loginAction = async (
     cookieStore.set("refreshToken", result.data.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 60 * 60 * 24 * 7,
       path: "/",
     });
@@ -66,20 +68,25 @@ export const loginAction = async (
       result.data.accessToken,
     ) as JwtPayload;
 
-    if (decodedToken?.role === "CUSTOMER") {
-      redirect("/dashboard");
+    switch (decodedToken?.role) {
+      case "CUSTOMER":
+        redirectPath = "/dashboard";
+        break;
+
+      case "TECHNICIAN":
+        redirectPath = "/technician-dashboard";
+        break;
+
+      case "ADMIN":
+        redirectPath = "/admin-dashboard";
+        break;
+
+      default:
+        return {
+          success: false,
+          message: "Invalid user role.",
+        };
     }
-
-    if (decodedToken?.role === "TECHNICIAN") {
-      redirect("/technician-dashboard");
-    }
-
-    if (decodedToken?.role === "ADMIN") {
-      redirect("/admin-dashboard");
-    }
-
-    return result;
-
   } catch (error) {
     console.error("Login error:", error);
 
@@ -88,8 +95,17 @@ export const loginAction = async (
       message: "Something went wrong. Please try again.",
     };
   }
-};
 
+  // Redirect after try...catch
+  if (redirectPath) {
+    redirect(redirectPath);
+  }
+
+  return {
+    success: true,
+    message: "Login successful.",
+  };
+};
 
 export const registerAction = async (
   prevState: unknown,
@@ -118,7 +134,6 @@ export const registerAction = async (
     const result = await res.json();
 
     return result;
-
   } catch (error) {
     console.error("Register error:", error);
 

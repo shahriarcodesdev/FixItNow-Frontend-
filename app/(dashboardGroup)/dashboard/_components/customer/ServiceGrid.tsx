@@ -32,10 +32,10 @@ type Service = {
 };
 
 type Props = {
-  services: Service[];
+  services?: Service[];
 };
 
-export function ServiceGrid({ services }: Props) {
+export function ServiceGrid({ services = [] }: Props) {
   return (
     <section className="space-y-6 ">
       <div>

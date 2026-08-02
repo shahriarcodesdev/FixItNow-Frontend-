@@ -92,9 +92,9 @@ export default async function CustomerDashboard() {
 
         </div>
 
-        <ServiceGrid
-          services={services.data}
-        />
+        
+
+<ServiceGrid services={services?.data ?? []} />
 
       </section>
 
