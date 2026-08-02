@@ -6,9 +6,9 @@ FixItNow is a full-stack home service marketplace that connects customers with s
 
 ## 🌐 Live Demo
 
-**Frontend:** https://your-frontend-url.vercel.app
+**Frontend:** https://fix-it-now-frontend-phi.vercel.app
 
-**Backend:** https://your-backend-url.vercel.app
+**Backend:** https://fix-it-now-backend-seven.vercel.app
 
 ---
 
@@ -232,11 +232,11 @@ The application is fully responsive and optimized for
 
 Aspiring Full-Stack MERN Developer
 
-GitHub: https://github.com/your-github
+GitHub: https://github.com/shahriarcodesdev
 
-LinkedIn: https://linkedin.com/in/your-linkedin
+LinkedIn: https://www.linkedin.com/in/shahriarcodesdev
 
-Portfolio: https://your-portfolio-link.com
+Portfolio: https://shahriar-portfolio-dev.netlify.app
 
 ---
 
