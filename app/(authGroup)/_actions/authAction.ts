@@ -4,73 +4,96 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-type loginState = {
-  success: number;
+type LoginState = {
+  success: boolean;
   message: string;
-  data: {
+  data?: {
     accessToken: string;
     refreshToken: string;
   };
 };
 
 export const loginAction = async (
-  prevState: loginState,
-  fromData: FormData,
+  prevState: LoginState,
+  formData: FormData,
 ) => {
-  console.log(prevState, "prev State");
-  const email = fromData.get("email");
-  const password = fromData.get("password");
+  const email = formData.get("email");
+  const password = formData.get("password");
 
   const payload = {
     email,
     password,
   };
-  // console.log(fromData)
-  const res = await fetch(`${process.env.BACKEND_API_URL}/api/auth/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
-  const result = await res.json();
-  // console.log(result)
-  
-  if (result.success) {
+
+  try {
+    const res = await fetch(
+      `${process.env.BACKEND_API_URL}/api/auth/login`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
+      },
+    );
+
+    const result = await res.json();
+
+    if (!result.success) {
+      return result;
+    }
+
     const cookieStore = await cookies();
 
     cookieStore.set("accessToken", result.data.accessToken, {
       httpOnly: true,
-      maxAge: 60 * 60 * 24, // 1 days
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      maxAge: 60 * 60 * 24,
+      path: "/",
     });
+
     cookieStore.set("refreshToken", result.data.refreshToken, {
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7, // 7 days
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      maxAge: 60 * 60 * 24 * 7,
+      path: "/",
     });
 
-    const decodedToken = jwt.decode(result.data.accessToken) as JwtPayload;
-    // console.log(decodedToken);
-    if (decodedToken.role=== "CUSTOMER") {
+    const decodedToken = jwt.decode(
+      result.data.accessToken,
+    ) as JwtPayload;
+
+    if (decodedToken?.role === "CUSTOMER") {
       redirect("/dashboard");
-    } else if (decodedToken.role === "TECHNICIAN") {
-      redirect("/technician-dashboard"); 
-    } else if (decodedToken.role === "ADMIN") {
+    }
+
+    if (decodedToken?.role === "TECHNICIAN") {
+      redirect("/technician-dashboard");
+    }
+
+    if (decodedToken?.role === "ADMIN") {
       redirect("/admin-dashboard");
-    } 
-
-
-    // redirect("/dashboard");
+    }
 
     return result;
+
+  } catch (error) {
+    console.error("Login error:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong. Please try again.",
+    };
   }
 };
 
 
 export const registerAction = async (
   prevState: unknown,
-  formData: FormData
+  formData: FormData,
 ) => {
   const payload = {
     name: formData.get("name"),
@@ -79,18 +102,29 @@ export const registerAction = async (
     role: formData.get("role"),
   };
 
-  const res = await fetch(
-    `${process.env.BACKEND_API_URL}/api/users/register`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+  try {
+    const res = await fetch(
+      `${process.env.BACKEND_API_URL}/api/users/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        cache: "no-store",
       },
-      body: JSON.stringify(payload),
-    }
-  );
+    );
 
-  const result = await res.json();
+    const result = await res.json();
 
-  return result;
+    return result;
+
+  } catch (error) {
+    console.error("Register error:", error);
+
+    return {
+      success: false,
+      message: "Something went wrong. Please try again.",
+    };
+  }
 };

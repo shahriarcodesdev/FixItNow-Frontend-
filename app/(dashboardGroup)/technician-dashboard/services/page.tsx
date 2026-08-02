@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getMyServices } from "@/service/getMyServices";
 import { getCategories } from "@/service/getCategories";
 

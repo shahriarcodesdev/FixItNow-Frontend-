@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getAllCategories } from "@/service/getAllCategories";
 
 import { CategoryForm } from "./_components/CategoryForm";

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { getAllBookings } from "@/service/getAllBookings";
 import { BookingTable } from "./_components/BookingTable";
 
