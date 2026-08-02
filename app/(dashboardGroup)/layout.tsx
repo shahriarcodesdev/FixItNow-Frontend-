@@ -1,18 +1,19 @@
-import Navbar from '@/components/shared/navbar'
-import { getMe } from '@/service/getMe'
-import React from 'react'
+import Navbar from "@/components/shared/navbar";
+import { getMe } from "@/service/getMe";
 
-const Dashboardlayout = async (
-    { children }: { children: React.ReactNode }
-) => {
-  const user = await getMe()
+const DashboardLayout = async ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const user = await getMe();
+
   return (
-   <div>
-    <Navbar user={user}></Navbar>
-        {children}
-        
-   </div>
-  )
-}
+    <div>
+      <Navbar user={user} />
+      {children}
+    </div>
+  );
+};
 
-export default Dashboardlayout
+export default DashboardLayout;
