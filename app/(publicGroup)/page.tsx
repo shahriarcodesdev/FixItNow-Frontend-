@@ -7,21 +7,19 @@ import { Footer } from "./_components/home/Footer";
 import { HowItWorks } from "./_components/home/HowItWorks";
 import { TrustSection } from "./_components/home/TrustSection";
 import { CTASection } from "./_components/home/CTASection";
+import ServiceCategories from "./_components/home/ServiceCategories";
 
-
-
-
-export default async function  HomePage() {
+export default async function HomePage() {
   // console.log("root route")
-  const user = await getMe()
+  const user = await getMe();
   // console.log(user)
   return (
-  <>
-<Hero />
+    <>
+      <Hero />
 
       <Categories />
 
-      
+      <ServiceCategories />
       <HowItWorks />
 
       <TrustSection />
@@ -29,7 +27,6 @@ export default async function  HomePage() {
       <CTASection />
 
       <Footer />
-  </>
-
+    </>
   );
 }
