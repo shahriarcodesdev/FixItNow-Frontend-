@@ -1,14 +1,9 @@
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import Link from "next/link";
 
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-
 import { Input } from "@/components/ui/input";
-
 import { Textarea } from "@/components/ui/textarea";
-
 import { Button } from "@/components/ui/button";
 
 import {
@@ -17,153 +12,172 @@ import {
   MapPin,
   Clock,
   Send,
+  MessageCircle,
+  ShieldCheck,
 } from "lucide-react";
+
+const contactInfo = [
+  {
+    title: "Phone",
+    value: "+880 1700-000000",
+    icon: Phone,
+  },
+  {
+    title: "Email",
+    value: "support@fixitnow.com",
+    icon: Mail,
+  },
+  {
+    title: "Location",
+    value: "Dhaka, Bangladesh",
+    icon: MapPin,
+  },
+  {
+    title: "Working Hours",
+    value: "Sat - Thu • 9 AM - 8 PM",
+    icon: Clock,
+  },
+];
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-7xl space-y-12 py-8">
+    <main className="min-h-screen bg-background">
       {/* Hero */}
-      <section className="rounded-3xl border bg-gradient-to-r from-primary/10 via-background to-primary/5 p-10 text-center">
-        <Badge className="mb-4">
-          Contact Us
-        </Badge>
+      <section className="border-b bg-muted/20">
+        <div className="mx-auto max-w-4xl px-4 py-16 text-center sm:py-20">
+          <Badge
+            variant="outline"
+            className="mb-4 rounded-full border-primary/30 bg-primary/5 px-4 py-1.5 text-primary"
+          >
+            <MessageCircle className="mr-2 h-3.5 w-3.5" />
+            Contact FixItNow
+          </Badge>
 
-        <h1 className="text-5xl font-bold tracking-tight">
-          Wed Love to Hear From You
-        </h1>
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+            Were Here to <span className="text-primary">Help</span>
+          </h1>
 
-        <p className="mx-auto mt-5 max-w-2xl text-lg text-muted-foreground">
-          Have a question, need support, or want to become a
-          technician? Our team is here to help.
-        </p>
+          <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">
+            Have a question, need support, or want to become a technician?
+            Our team is ready to help.
+          </p>
+        </div>
       </section>
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        {/* Contact Info */}
-        <div className="space-y-6">
-          <Card>
-            <CardContent className="flex items-center gap-4 p-6">
-              <div className="rounded-xl bg-primary/10 p-3">
-                <Phone className="h-6 w-6 text-primary" />
-              </div>
+      {/* Contact Section */}
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
+        <div className="grid gap-8 lg:grid-cols-5">
+          {/* Contact Info */}
+          <div className="lg:col-span-2">
+            <h2 className="text-3xl font-bold">
+              Get in <span className="text-primary">Touch</span>
+            </h2>
 
-              <div>
-                <h3 className="font-semibold">
-                  Phone
-                </h3>
+            <p className="mt-3 leading-7 text-muted-foreground">
+              Whether you need help with a booking or have questions about
+              FixItNow, were here for you.
+            </p>
 
-                <p className="text-sm text-muted-foreground">
-                  +880 1700-000000
+            <div className="mt-6 space-y-3">
+              {contactInfo.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <Card
+                    key={item.title}
+                    className="transition hover:-translate-y-1 hover:border-primary/30 hover:shadow-md"
+                  >
+                    <CardContent className="flex items-center gap-4 p-4">
+                      <div className="rounded-xl bg-primary/10 p-3 text-primary">
+                        <Icon className="h-5 w-5" />
+                      </div>
+
+                      <div>
+                        <p className="text-sm font-medium">
+                          {item.title}
+                        </p>
+
+                        <p className="text-sm text-muted-foreground">
+                          {item.value}
+                        </p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Form */}
+          <Card className="lg:col-span-3">
+            <CardContent className="p-6 sm:p-8">
+              <div className="mb-6">
+                <h2 className="text-2xl font-bold">
+                  Send us a Message
+                </h2>
+
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Well get back to you as soon as possible.
                 </p>
               </div>
-            </CardContent>
-          </Card>
 
-          <Card>
-            <CardContent className="flex items-center gap-4 p-6">
-              <div className="rounded-xl bg-primary/10 p-3">
-                <Mail className="h-6 w-6 text-primary" />
-              </div>
+              <form className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Input placeholder="Your Name" />
+                  <Input
+                    type="email"
+                    placeholder="Email Address"
+                  />
+                </div>
 
-              <div>
-                <h3 className="font-semibold">
-                  Email
-                </h3>
+                <Input
+                  type="tel"
+                  placeholder="Phone Number"
+                />
 
-                <p className="text-sm text-muted-foreground">
-                  support@fixitnow.com
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+                <Input placeholder="Subject" />
 
-          <Card>
-            <CardContent className="flex items-center gap-4 p-6">
-              <div className="rounded-xl bg-primary/10 p-3">
-                <MapPin className="h-6 w-6 text-primary" />
-              </div>
+                <Textarea
+                  rows={5}
+                  placeholder="Write your message..."
+                  className="resize-none"
+                />
 
-              <div>
-                <h3 className="font-semibold">
-                  Address
-                </h3>
-
-                <p className="text-sm text-muted-foreground">
-                  Dhaka, Bangladesh
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="flex items-center gap-4 p-6">
-              <div className="rounded-xl bg-primary/10 p-3">
-                <Clock className="h-6 w-6 text-primary" />
-              </div>
-
-              <div>
-                <h3 className="font-semibold">
-                  Working Hours
-                </h3>
-
-                <p className="text-sm text-muted-foreground">
-                  Sat - Thu • 9:00 AM - 8:00 PM
-                </p>
-              </div>
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="rounded-lg"
+                >
+                  <Send className="mr-2 h-4 w-4" />
+                  Send Message
+                </Button>
+              </form>
             </CardContent>
           </Card>
         </div>
+      </section>
 
-        {/* Contact Form */}
-        <Card className="lg:col-span-2">
-          <CardContent className="p-8">
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold">
-                Send us a Message
-              </h2>
+      {/* Trust */}
+      <section className="border-t bg-muted/20">
+        <div className="mx-auto max-w-3xl px-4 py-12 text-center">
+          <ShieldCheck className="mx-auto h-10 w-10 text-primary" />
 
-              <p className="mt-2 text-muted-foreground">
-                Fill out the form below and well get back to
-                you as soon as possible.
-              </p>
-            </div>
+          <h2 className="mt-4 text-2xl font-bold">
+            Trusted Home Services
+          </h2>
 
-            <form className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                <Input
-                  placeholder="Your Name"
-                />
+          <p className="mt-2 text-sm text-muted-foreground">
+            FixItNow connects customers with verified professionals for
+            reliable and hassle-free home services.
+          </p>
 
-                <Input
-                  type="email"
-                  placeholder="Email Address"
-                />
-              </div>
-
-              <Input
-                placeholder="Phone Number"
-              />
-
-              <Input
-                placeholder="Subject"
-              />
-
-              <Textarea
-                rows={6}
-                placeholder="Write your message..."
-              />
-
-              <Button
-                size="lg"
-                className="w-full md:w-auto"
-              >
-                <Send className="mr-2 h-4 w-4" />
-                Send Message
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+          <Button asChild className="mt-5">
+            <Link href="/services">
+              Explore Services
+            </Link>
+          </Button>
+        </div>
+      </section>
+    </main>
   );
 }
